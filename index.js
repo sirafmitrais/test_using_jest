@@ -16,6 +16,11 @@ app.get('/', function (req, res){
     )
 })
 
+app.use('*', function (req, res) {
+    res.status(404).send({
+        message: 'You Get Lost ? '
+    })
+})
 app.listen(port, () => {
     console.log(`Server is running at localhost:${port}`)
 })  
