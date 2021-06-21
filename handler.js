@@ -30,7 +30,7 @@ var createData = function createData(req, res, next) {
         first_name: req.body.first_name,
         last_name: req.body.last_name,
         age: req.body.age,
-        address: req.body.address,
+        adress: req.body.adress,
     }
     dataHandler.createData(data_input)
         .then(result => {
