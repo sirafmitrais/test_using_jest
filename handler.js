@@ -3,7 +3,7 @@ var dataHandler = require('./dataHandler.js')
 
 var getDetailbySearch = function (req, res) {
     console.log(req.query.q)
-    dataHandler.getDetailByQuery(req.query.q)
+    return dataHandler.getDetailByQuery(req.query.q)
         .then(
             result => {
                 res.status(200).send(result)
@@ -15,7 +15,7 @@ var getDetailbySearch = function (req, res) {
 }
 
 var getAll = function getAll(req, res) {
-    dataHandler.readAllData()
+    return dataHandler.readAllData()
         .then(result => {
             // console.log(e);
             res.status(200).send(result)
@@ -32,16 +32,39 @@ var createData = function createData(req, res, next) {
         age: req.body.age,
         adress: req.body.adress,
     }
-    dataHandler.createData(data_input)
+    return dataHandler.createData(data_input)
         .then(result => {
             console.log(result)
             res.status(200).send(data_input)
         });
 }
 
+var editData = function updateData(req, res) {
+    data_input = {
+        id: req.params.id,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        age: req.body.age,
+        adress: req.body.adress
+    }
+    return dataHandler.deleteById(req.params.id)
+        .then(
+            dataHandler.createData(data_input)
+                .then(result => {
+                    res.status(200).send(data_input);
+                })
+                .catch(err => {
+                    res.status(500).send(err);
+                })
+        )
+        .catch(err => {
+            res.status(500).send(err);
+        })
+}
+
 var getDetailById = function getDetailById(req, res) {
     // message_send = `Get people detail id:  ${req.params.id}`
-    dataHandler.getDetailById(req.params.id)
+    return dataHandler.getDetailById(req.params.id)
         .then(
             result => {
                 if (result.err == true) {
@@ -59,7 +82,7 @@ var getDetailById = function getDetailById(req, res) {
 }
 
 var deleteByIdUser = function (req, res) {
-    dataHandler.deleteById(req.params.id)
+    return dataHandler.deleteById(req.params.id)
         .then(
             result => {
                 console.log(result)
@@ -76,5 +99,6 @@ module.exports = {
     getAll: getAll,
     createData: createData,
     getDetailById: getDetailById,
-    deleteByIdUser: deleteByIdUser
+    deleteByIdUser: deleteByIdUser,
+    updateData: editData
 }

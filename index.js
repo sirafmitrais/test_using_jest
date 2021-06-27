@@ -24,3 +24,5 @@ app.use('*', function (req, res) {
 app.listen(port, () => {
     console.log(`Server is running at localhost:${port}`)
 })  
+
+module.exports = app

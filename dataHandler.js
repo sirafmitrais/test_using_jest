@@ -1,8 +1,8 @@
-const fs = require('fs/promises');
+const fs = require("fs").promises;
 const people_data = 'data_people.json'
 
-var readAllData = async function(){
-    return fs.readFile(people_data)
+var readAllData = async function(file=people_data){
+    return fs.readFile(file)
         .then((result) =>{
             result_in_json = JSON.parse(result);
             // console.log(result_in_json)
@@ -44,15 +44,15 @@ var getDetailById = async function getDetailById(people_id){
         });
 }
 
-var createData = function createData(data_people){
-    return fs.readFile(people_data)
+var createData = function createData(file=data_people){
+    return fs.readFile(file)
         .then((result) => {
             result_in_json = JSON.parse(result)
             result_in_json.push(data_people)
             console.log(
                 "masuk gan"
             )
-            return fs.writeFile(people_data, JSON.stringify(result_in_json))
+            return fs.writeFile(file, JSON.stringify(result_in_json))
                 .then((result) =>{
                     console.log(
                         "iso write"
@@ -68,7 +68,7 @@ var createData = function createData(data_people){
         })
 }
 
-function getDetailByQuery(q){
+function getDetailByQuery(q, file=people_data){
     var pattern_regex = ""
     pattern_regex = q.toLowerCase().split("").map(
         (x)=>{
@@ -76,7 +76,7 @@ function getDetailByQuery(q){
         }
     ).join("");
 
-    return fs.readFile(people_data)
+    return fs.readFile(file)
         .then((result) => {
             // console.log("test masuk")
             result_in_json = JSON.parse(result)
@@ -95,12 +95,12 @@ function getDetailByQuery(q){
         })
 }
 
-var deleteById = function deleteById(people_id){
-    return fs.readFile(people_data)
+var deleteById = function deleteById(people_id, file=people_data){
+    return fs.readFile(file)
         .then((result) => {
             result_in_json = JSON.parse(result)
             new_data_after_remove = result_in_json.filter(data => data.id != people_id);
-            return fs.writeFile(people_data, JSON.stringify(new_data_after_remove))
+            return fs.writeFile(file, JSON.stringify(new_data_after_remove))
                 .then((result) =>{
                     return {
                         message : 'success delete data'
